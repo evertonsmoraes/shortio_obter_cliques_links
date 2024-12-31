@@ -55,6 +55,7 @@ limite_lote: int)
     obter1 --> df_click
     df_click-->check_click{"len(df_click)==0"}
     check_click-->|Sim|check_click_sim[Sem cliques localizados]
+    check_click_sim-->incrementar_data
     check_click-->|Não|check_limit_click{"len(df_click)==limite_lote"}
     limite_lote-->check_limit_click
     check_limit_click-->|Não|check_limit_click2{"len(df_click)<=limite_lote"}
@@ -77,12 +78,13 @@ limite_lote: int)
     obter2 --> df_click2
     df_click2-->check_click2{"len(df_click)==0"}
     check_click2-->|Sim|check_click2sim[Sem cliques localizados]
+    check_click2sim-->incrementar_data
     check_click2-->|Não|check_click3{"len(df_click)>0"}
     check_click3-->|Sim|insere_registros2("insere registros")
     insere_registros2-->inserir_bq
     inserir_bq-->incrementar_data("data_atual = data_atual+1")
     incrementar_data-->reinicia_loop("reinicia o 'loop data_atual'")
-    
+        
 
     end 
     
