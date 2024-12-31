@@ -17,7 +17,6 @@ Original file is located at
   @since '08/10/2024'
 
 """
-
 import requests
 import datetime
 import pandas as pd
@@ -170,7 +169,7 @@ def obter_ultima_data_bigquery():
   bq_client = bigquery.Client(project=var_project)
 
   # Query verificar se existe o cod_segmetacao
-  consulta = bq_client.query("SELECT MAX(CAST(A.DATAHORA_ACESSO AS DATE)) FROM `<projeto_bigquery>.<dataset_bigquery>.<tabela_bigquery>`  AS A")
+  consulta = bq_client.query("SELECT MAX(CAST(A.DATAHORA_ACESSO AS DATE)) FROM `<projeto_bigquery>.<dataset_bigquery>.TB_SHORTIO_CLIQUES`  AS A")
 
   for row in consulta.result():
     ult_data = row[0]
@@ -188,7 +187,7 @@ def obter_browsers_bigquery():
   bq_client = bigquery.Client(project=var_project)
 
   # Query verificar se existe o browser
-  consulta = bq_client.query("SELECT DISTINCT BROWSER FROM `<projeto_bigquery>.<dataset_bigquery>.<tabela_bigquery>` ORDER BY 1 ASC")
+  consulta = bq_client.query("SELECT DISTINCT BROWSER FROM `<projeto_bigquery>.<dataset_bigquery>.TB_SHORTIO_CLIQUES` ORDER BY 1 ASC")
 
   ls_final = []
 
@@ -218,7 +217,7 @@ def inserir_dados_bigquery(df):
   log(f"Aplicado as tratativas nos dados")
 
   # Insere os dados no BigQuery
-  pd_gbq.to_gbq(df_importar2, '<dataset_bigquery>.<tabela_bigquery>', project_id='<projeto_bigquery>', if_exists='append')
+  pd_gbq.to_gbq(df_importar2, '<dataset_bigquery>.TB_SHORTIO_CLIQUES', project_id='<projeto_bigquery>', if_exists='append')
 
   log(f"Inseridos {len(df_importar):,} registros no BigQuery")
 
